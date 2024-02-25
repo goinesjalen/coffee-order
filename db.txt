@@ -1,0 +1,5 @@
+1, 2.01, Espresso, Milk, Soy
+2, 2.01, Espresso, Milk, Soy
+3, 2.32, HouseBlend, Milk, Soy
+4, 1.9499999, Decaf, Milk, Soy
+1, 1.9499999, Decaf, Milk, Soy
