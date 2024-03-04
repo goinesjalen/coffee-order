@@ -3,54 +3,38 @@ package edu.iu.habahram.coffeeorder.repository;
 import edu.iu.habahram.coffeeorder.model.*;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties.Io;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class OrderRepository {
     private int id;
     public Receipt add(OrderData order) throws Exception {
-        Beverage beverage = null;
-        switch (order.beverage().toLowerCase()) {
-            case "dark roast":
-                beverage = new DarkRoast();
-                break;
-            case "decaf":
-                beverage = new Decaf();
-                break;
-            case "espresso":
-                beverage = new Espresso();
-                break;
-            case "houseblend":
-                beverage = new HouseBlend();
-                break;
-        }
+        Beverage beverage = switch (order.beverage().toLowerCase()) {
+            case "dark roast" -> new DarkRoast();
+            case "decaf" -> new Decaf();
+            case "espresso" -> new Espresso();
+            case "houseblend" -> new HouseBlend();
+            default -> null;
+        };
         if (beverage == null) {
             throw new Exception("Beverage type '%s' is not valid!".formatted(order.beverage()));
         }
         for(String condiment : order.condiments()) {
-            switch (condiment.toLowerCase()) {
-                case "milk":
-                   beverage = new Milk(beverage);
-                   break;
-                case "mocha":
-                    beverage = new Mocha(beverage);
-                    break;
-                case "whip":
-                    beverage = new Whip(beverage);
-                    break;
-                case "soy":
-                    beverage = new Soy(beverage);
-                    break;
-                default:
-                    throw new Exception("Condiment type '%s' is not valid".formatted(condiment));
-            }
+            beverage = switch (condiment.toLowerCase()) {
+                case "milk" -> new Milk(beverage);
+                case "mocha" -> new Mocha(beverage);
+                case "whip" -> new Whip(beverage);
+                case "soy" -> new Soy(beverage);
+                default -> throw new Exception("Condiment type '%s' is not valid".formatted(condiment));
+            };
         }
         Receipt receipt = new Receipt(id, beverage.cost(), beverage.getDescription());
         id++;
@@ -83,5 +67,46 @@ public class OrderRepository {
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
         }
+    }
+    public List<Receipt> findAll() throws IOException {
+        List<Receipt> result = new ArrayList<>();
+        Path path = Paths.get("db.txt");
+        List<String> data = Files.readAllLines(path);
+        for (String line : data) {
+            if(!line.trim().isEmpty()) {
+                String[] words = line.split(",");
+                String description = String.valueOf(words[2]);
+                if (words.length > 3) {
+                    description = getString(words);
+                }
+                Receipt r = new Receipt(Integer.parseInt(words[0]), Float.parseFloat(words[1]), description);
+                result.add(r);
+            }
+        }
+        return result;
+    }
+
+    private static String getString(String[] words) {
+        String[] condiments = Arrays.copyOfRange(words, 2, words.length);
+        String description = "";
+        boolean first = true;
+        for (String cond : condiments) {
+            if (first) {
+                if (condiments.length > 1)
+                    description = cond + " with ";
+                else
+                    description = cond;
+                first = false;
+            }
+            else
+                description += cond + ", ";
+        }
+        description = description.substring(0, description.length() - 2);
+        return description;
+    }
+
+    public Receipt getOrder() throws IOException {
+        List<Receipt> receipts = findAll();
+        return receipts.get(receipts.size() - 1);
     }
 }

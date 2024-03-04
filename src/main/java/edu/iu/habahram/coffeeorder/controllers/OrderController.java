@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @CrossOrigin(origins = "https://goinesjalen.github.io")
 @RequestMapping("/orders")
@@ -28,6 +30,14 @@ public class OrderController {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
+        }
+    }
+    @GetMapping
+    public Receipt getOrder() {
+        try {
+            return orderRepository.getOrder();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
