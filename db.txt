@@ -1,0 +1,28 @@
+1, 1.99, Dark roast
+1, 2.05, HouseBlend, Milk
+1, 1.8900001, Espresso, Mocha, Whip
+1, 2.5, Decaf, Milk, Mocha, Soy, Whip
+1, 1.92, HouseBlend, Soy
+1, 2.7900002, Dark roast, Milk, Milk
+1, 1.6400001, Espresso, Mocha
+1, 1.28, Decaf
+1, 1.9, HouseBlend, Whip
+1, 2.51, Dark roast, Soy, Whip
+1, 2.56, Espresso, Milk, Mocha, Soy, Whip
+1, 2.35, HouseBlend, Milk, Mocha
+1, 1.9499999, Decaf, Milk, Soy
+1, 2.74, Dark roast, Whip, Whip, Whip
+1, 1.99, Dark roast
+1, 2.05, HouseBlend, Milk
+1, 1.8900001, Espresso, Mocha, Whip
+1, 2.5, Decaf, Milk, Mocha, Soy, Whip
+1, 1.92, HouseBlend, Soy
+1, 2.7900002, Dark roast, Milk, Milk
+1, 1.6400001, Espresso, Mocha
+1, 1.28, Decaf
+1, 1.9, HouseBlend, Whip
+1, 2.51, Dark roast, Soy, Whip
+1, 2.56, Espresso, Milk, Mocha, Soy, Whip
+1, 2.35, HouseBlend, Milk, Mocha
+1, 1.9499999, Decaf, Milk, Soy
+1, 2.74, Dark roast, Whip, Whip, Whip
